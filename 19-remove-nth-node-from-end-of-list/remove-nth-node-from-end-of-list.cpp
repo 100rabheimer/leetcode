@@ -41,6 +41,7 @@ public:
         // Step 5: Delete node
         temp->next = temp->next->next;
 
-        return head;
+        return head;//function caller ko list ka starting address wapas de dia
+        
     }
 };
