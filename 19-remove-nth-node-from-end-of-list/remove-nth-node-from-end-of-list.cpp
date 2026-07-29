@@ -12,36 +12,23 @@ class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
          // Step 1: Find length
-        int len = 0;
-        ListNode* temp = head;
+    int len=0;
+  ListNode* temp=head;
+  while(temp!=NULL){
+    temp=temp->next;
+    len++;
+  }
+  int pos=len-n;
 
-        while(temp != NULL)
-        {
-            len++;
-            temp = temp->next;
-        }
+  if(pos==0){
+    return head->next;
 
-        // Step 2: Position from beginning
-        int pos = len - n;
-
-        // Step 3: Delete first node
-        if(pos == 0)
-        {
-            return head->next;
-        }
-
-        // Step 4: Reach previous node
-        temp = head;
-
-        for(int i = 1; i < pos; i++)
-        {
-            temp = temp->next;
-        }
-
-        // Step 5: Delete node
-        temp->next = temp->next->next;
-
-        return head;//function caller ko list ka starting address wapas de dia
-        
+  }
+   temp=head;
+   for(int i=1;i<pos;i++){
+    temp=temp->next;
+   }
+   temp->next=temp->next->next;
+   return head;
     }
 };
