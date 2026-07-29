@@ -22,7 +22,6 @@ public:
 
   if(pos==0){
     return head->next;
-
   }
    temp=head;
    for(int i=1;i<pos;i++){
