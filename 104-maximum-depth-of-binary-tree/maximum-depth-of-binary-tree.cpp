@@ -16,6 +16,6 @@ public:
         return 0;
         int leftdepth=maxDepth(root->left);
         int rightdepth=maxDepth(root->right);
-        return 1+max(leftdepth, rightdepth);
+        return 1+max(leftdepth, rightdepth);//current node ka bhi 1 add hoga na liek if  3 ka right side ke depth ko btana hai na toh measure krenge 2 +1(3 ka) bhi include hoga;
             }
 };
