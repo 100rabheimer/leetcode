@@ -12,79 +12,54 @@
 
 class Solution {
 public:
-    bool isCousins(TreeNode* root, int x, int y) {
+    bool isCousins(TreeNode* root, int x, int y) 
+    {
+if(root==NULL)
+return NULL;
 
-        // Base case
-        if(root == NULL)
-            return false;
-
-        // Queue for BFS
-        queue<TreeNode*> q;
-        q.push(root);
-
-        while(!q.empty())
-        {
-            int size = q.size();
-
-            // Variables for current level only
-            bool foundX = false;
-            bool foundY = false;
-
-            TreeNode* parentX = NULL;
-            TreeNode* parentY = NULL;
-
-            // Traverse current level
-            for(int i = 0; i < size; i++)
-            {
-                TreeNode* node = q.front();
-                q.pop();
-
-                // Check left child
-                if(node->left)
-                {
-                    if(node->left->val == x)
-                    {
-                        foundX = true;
-                        parentX = node;
-                    }
-
-                    if(node->left->val == y)
-                    {
-                        foundY = true;
-                        parentY = node;
-                    }
-
-                    q.push(node->left);
-                }
-
-                // Check right child
-                if(node->right)
-                {
-                    if(node->right->val == x)
-                    {
-                        foundX = true;
-                        parentX = node;
-                    }
-
-                    if(node->right->val == y)
-                    {
-                        foundY = true;
-                        parentY = node;
-                    }
-
-                    q.push(node->right);
-                }
+ queue<TreeNode*>q;
+ q.push(root);
+ while(!q.empty()){
+    int size=q.size();
+    bool foundx=false;
+    bool foundy=false;
+    TreeNode* parentx=NULL;
+    TreeNode* parenty=NULL;
+    for(int i=0;i<size;i++){
+        TreeNode* node = q.front();
+        q.pop();
+        if(node->left){
+            if(node->left->val==x){
+                foundx=true;
+                parentx=node;
+            }
+            if(node->left->val==y){
+                foundy=true;
+                parenty=node;
+            }
+            q.push(node->left);
+        }
+        if(node->right){
+            if(node->right->val==x){
+                foundx=true;
+                parentx=node;
+            }
+            if(node->right->val==y){
+                foundy=true;
+                parenty=node;
             }
 
-            // If both found in same level
-            if(foundX && foundY)
-                return parentX != parentY;
-
-            // If only one found
-            if(foundX || foundY)
-                return false;
+            q.push(node->right);
         }
-
+    }
+    if(foundx && foundy){
+        return parentx!=parenty;
+    }
+    if(foundx||foundy){
         return false;
+    }
+ }
+    return false;
+ 
     }
 };
