@@ -11,31 +11,24 @@
  */
 class Solution {
 public:
-    void flatten(TreeNode* root) {
-        
-        if(root == NULL)
-            return;
+TreeNode* prev=NULL;
+void solve(TreeNode* root){
+    if(root==NULL)
+    return;
 
-        // Original right subtree save karo
-        TreeNode* right = root->right;
+         // Reverse preorder
+        solve(root->right);
+        solve(root->left);
 
-        // Left subtree flatten karo
-        flatten(root->left);
-
-        // Flattened left ko right side mein shift karo
-        root->right = root->left;
+        // Current node ko already processed
+        // node ke aage attach karo
+        root->right = prev;
         root->left = NULL;
 
-        // Right chain ke end tak jao
-        TreeNode* temp = root;
-
-        while(temp->right != NULL)
-            temp = temp->right;
-
-        // Original right subtree attach karo
-        temp->right = right;
-
-        // Ab original right subtree ko flatten karo
-        flatten(right);
+        prev = root;
+}
+    void flatten(TreeNode* root) {
+           solve(root);
+     
     }
 };
