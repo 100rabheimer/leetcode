@@ -19,10 +19,13 @@ public:
         if(left!=NULL && right!=NULL){
             return root;        }
     
-    if(left!=NULL)
-    return left;
+    if(left!=NULL){
+    return left;}
+
+    if(right!=NULL){
+    return right;}
 
 
-    return right;
+    return NULL;
 }
 };
