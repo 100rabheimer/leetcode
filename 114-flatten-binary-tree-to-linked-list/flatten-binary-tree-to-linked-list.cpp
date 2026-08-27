@@ -11,24 +11,31 @@
  */
 class Solution {
 public:
-TreeNode* prev=NULL;
-void solve(TreeNode* root){
-    if(root==NULL)
-    return;
 
-         // Reverse preorder
-        solve(root->right);
-        solve(root->left);
+    void flatten(TreeNode* root) {
+    if(root == NULL)
+            return;
 
-        // Current node ko already processed
-        // node ke aage attach karo
-        root->right = prev;
+        flatten(root->left);
+        flatten(root->right);
+
+        TreeNode* temp = root->right;
+
+        root->right = root->left;
         root->left = NULL;
 
-        prev = root;
-}
-    void flatten(TreeNode* root) {
-           solve(root);
-     
+         if(root->right == NULL) {
+            root->right = temp;
+            return;
+        }
+        TreeNode* curr = root->right;
+
+        if(curr != NULL) {
+            while(curr->right != NULL) {
+                curr = curr->right;
+            }
+
+            curr->right = temp;
+        }
     }
 };
