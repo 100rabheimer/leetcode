@@ -7,42 +7,40 @@ public:
 
         vector<vector<int>> dist(m, vector<int>(n, -1));
 
-        queue<pair<int, int>> q;
+        queue<pair<int,int>> q;
 
-        // Step 1: Saare 0 ko queue mein daalo
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
+        // All 0s are sources
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
 
-                if (mat[i][j] == 0) {
+                if(mat[i][j] == 0) {
                     dist[i][j] = 0;
                     q.push({i, j});
                 }
             }
         }
 
-        // 4 directions
-        int dr[] = {-1, 1, 0, 0};
-        int dc[] = {0, 0, -1, 1};
+        int dx[] = {-1, 1, 0, 0};
+        int dy[] = {0, 0, -1, 1};
 
-        // Step 2: Multi-source BFS
-        while (!q.empty()) {
+        // Multi-source BFS
+        while(!q.empty()) {
 
-            auto [r, c] = q.front();
+            auto [i, j] = q.front();
             q.pop();
 
-            for (int k = 0; k < 4; k++) {
+            for(int k = 0; k < 4; k++) {
 
-                int nr = r + dr[k];
-                int nc = c + dc[k];
+                int ni = i + dx[k];
+                int nj = j + dy[k];
 
-                // Check valid cell + unvisited
-                if (nr >= 0 && nr < m &&
-                    nc >= 0 && nc < n &&
-                    dist[nr][nc] == -1) {
+                if(ni >= 0 && ni < m &&
+                   nj >= 0 && nj < n &&
+                   dist[ni][nj] == -1) {
 
-                    dist[nr][nc] = dist[r][c] + 1;
+                    dist[ni][nj] = dist[i][j] + 1;
 
-                    q.push({nr, nc});
+                    q.push({ni, nj});
                 }
             }
         }
