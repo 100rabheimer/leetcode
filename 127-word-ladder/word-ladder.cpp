@@ -1,89 +1,68 @@
 class Solution {
 public:
-    int ladderLength(string beginWord, string endWord,
-                     vector<string>& wordList) {
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
 
-        // Step 1: wordList ko set mein store karte hain
-        // taaki kisi word ko quickly check kar sakein
-        unordered_set<string> dict(wordList.begin(), wordList.end());
+        // Queue stores:
+        // {current word, number of steps taken to reach it}
+        queue<pair<string, int>> q;
 
-        // Agar endWord dictionary mein hi nahi hai,
-        // toh transformation possible nahi hai
-        if(dict.find(endWord) == dict.end())
-            return 0;
+        // Put all words into set for O(1) average lookup
+        unordered_set<string> st(wordList.begin(), wordList.end());
 
+        // Start BFS from beginWord
+        // beginWord itself counts as step 1
+        q.push({beginWord, 1});
 
-        // Step 2: BFS queue
-        queue<string> q;
-        q.push(beginWord);
+        // We have already used beginWord,
+        // so remove it from the set
+        st.erase(beginWord);
 
+        // BFS
+        while (!q.empty()) {
 
-        // Step 3: visited words
-        // beginWord ko already discover kar liya
-        unordered_set<string> visited;
-        visited.insert(beginWord);
+            // Get current word and its step count
+            string word = q.front().first;
+            int steps = q.front().second;
+            q.pop();
 
-
-        // beginWord khud sequence ka first word hai
-        int count = 1;
-
-
-        // Step 4: BFS
-        while(!q.empty()) {
-
-            // Current BFS level ke words
-            int size = q.size();
-
-            for(int j = 0; j < size; j++) {
-
-                string word = q.front();
-                q.pop();
-
-
-                // Destination mil gaya
-                if(word == endWord)
-                    return count;
-
-
-                // Step 5: Current word ke neighbours generate karo
-                for(int i = 0; i < word.size(); i++) {
-
-                    // Har possible character try karo
-                    for(char ch = 'a'; ch <= 'z'; ch++) {
-
-                        // Same character lagane ka koi point nahi
-                        if(ch == word[i])
-                            continue;
-
-
-                        // Original word ko preserve karne ke liye copy
-                        string temp = word;
-
-                        // Sirf ek character change
-                        temp[i] = ch;
-
-
-                        // Kya valid word hai?
-                        // Aur kya pehle visit nahi hua?
-                        if(dict.find(temp) != dict.end() &&
-                           visited.find(temp) == visited.end()) {
-
-                            // Pehli baar discover hua
-                            visited.insert(temp);
-
-                            // Baad mein process karenge
-                            q.push(temp);
-                        }
-                    }
-                }
+            // If we reached endWord, return the number of steps
+            if (word == endWord) {
+                return steps;
             }
 
-            // Current level complete
-            count++;
+            // Try changing every character of the current word
+            for (int i = 0; i < word.size(); i++) {
+
+                // Save the original character
+                char original = word[i];
+
+                // Try every possible lowercase letter
+                for (char ch = 'a'; ch <= 'z'; ch++) {
+
+                    // Change character at index i
+                    word[i] = ch;
+
+                    // Check whether this newly formed word
+                    // exists in the word list
+                    if (st.find(word) != st.end()) {
+
+                        // Remove it immediately so that
+                        // we don't visit the same word again
+                        st.erase(word);
+
+                        // Add the valid word to the queue
+                        // with one more step
+                        q.push({word, steps + 1});
+                    }
+                }
+
+                // Restore the original character
+                // before moving to the next index
+                word[i] = original;
+            }
         }
 
-
-        // Transformation possible nahi hai
+        // If endWord cannot be reached
         return 0;
     }
 };
