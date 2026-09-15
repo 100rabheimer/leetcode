@@ -1,1 +1,1 @@
-<h2>word-ladder Notes</h2><hr>[ Time taken: 23hrs 8m 16s ]
+<h2>word-ladder Notes</h2><hr>[ Time taken: 12hrs 40m 3s ]
