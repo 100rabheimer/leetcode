@@ -1,31 +1,22 @@
 class Solution {
 public:
+void solve(vector<int>& nums, int index, vector<int>& path, vector<vector<int>>& ans){
 
-    vector<vector<int>> ans;
-    vector<int> curr;
-
-    void solve(int index, vector<int>& nums)
-    {
-        // Base Case
-        if(index == nums.size())
-        {
-            ans.push_back(curr);
-            return;
-        }
-
-        // Choice 1 : Take current element
-        curr.push_back(nums[index]);
-        solve(index + 1, nums);
-
-        // Undo (Backtrack)
-        curr.pop_back();
-
-        // Choice 2 : Don't Take current element
-        solve(index + 1, nums);
+    //jab sare elements ka decision o jaye toh current path ek complete subset hota hai 
+    if(index==nums.size()){
+        ans.push_back(path);
+        return;
     }
 
+    path.push_back(nums[index]);
+   solve(nums, index+1, path, ans);
+   path.pop_back();
+solve(nums, index+1, path, ans);
+}
     vector<vector<int>> subsets(vector<int>& nums) {
-        solve(0, nums);
-        return ans;
+      vector<int>path;
+      vector<vector<int>>ans;
+      solve(nums, 0, path, ans);
+      return ans;  
     }
 };
