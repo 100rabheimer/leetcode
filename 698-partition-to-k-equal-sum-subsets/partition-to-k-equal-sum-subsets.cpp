@@ -1,52 +1,48 @@
 class Solution {
 public:
-vector<int>nums;
-int k;
-int target;
+    vector<int> nums;
+    int n;
+    int target; 
+    vector<bool> used;
 
-bool solve(int index, vector<int>& buckets){
-    if(index==nums.size()){
-        return true;
-    }
-    int current=nums[index];
-    for(int i=0;i<k;i++){
-        if(buckets[i]+current>target){
-            continue;
+    bool solve(int k,int idx,int currSum) {
+        if(k==1) return true;
+        if(currSum == target){
+            return solve(k-1,0,0);
         }
 
-        buckets[i]+=current;
-        if(solve(index+1, buckets)){
-            return true;
+        if(idx >= n || currSum > target) {
+            return false;
         }
-        buckets[i]-=current;
 
-if(buckets[i] == 0) {
-    break;
-}
+        if(!used[idx]) {
+            used[idx] = true;
+            if(solve(k,idx+1,currSum+nums[idx])) {
+                return true;
+            };
+            used[idx] = false;
+        }
+ 
+        return solve(k,idx+1,currSum);
     }
-    return false;
-}
     bool canPartitionKSubsets(vector<int>& nums, int k) {
-     this->nums=nums;
-     this->k=k;
-     int total=0;
-     for(int i=0;i<nums.size();i++){
-total+=nums[i];
-     }   
-// Equal partition impossible
-     if(total%k!=0){
-     return false;
-     }
+        this->nums = nums;
+        n = nums.size();
+        used.assign(n,false);
 
-     target=total/k;
-       sort(this->nums.begin(), this->nums.end(), greater<int>());
-         if(this->nums[0] > target) {
-        return false;
-    }
-     vector<int>buckets(k,0);
-     return solve(0,buckets);
-     
+        int total = accumulate(nums.begin(),nums.end(),0);
 
+        if(total % k != 0) {
+            return false;
+        }
 
+        target = total / k;
+
+        sort(nums.rbegin(),nums.rend());
+        if(nums[0]>target) {
+            return false;
+        }
+
+        return solve(k,0,0);
     }
 };
