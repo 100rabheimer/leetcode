@@ -5,7 +5,7 @@ public:
      int n=s.size();
      vector<int>dp(n+1, 0);
      dp[0]=1;
-     if(s[0]=='0')return 0;
+if (s.empty() || s[0] == '0') return 0;
      dp[1]=1;
      for(int i=2;i<=n;i++){
         // single digit case
