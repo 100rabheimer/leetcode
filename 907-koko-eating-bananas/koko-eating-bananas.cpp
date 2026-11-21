@@ -8,8 +8,12 @@ for(int i=0;i<piles.size();i++){
 
  totalhours+=hr;
 }
-return totalhours<=h;
-}  
+  if(totalhours > h) {
+                return false;
+            }
+        
+
+        return true;}  
   int minEatingSpeed(vector<int>& piles, int h) {
         int low=1; 
        int high=0;
